@@ -142,6 +142,11 @@
         sendMessage();
       }
     });
+
+    // Bot sends a message first when the page loads
+    window.onload = function() {
+      addBubble("Hello! I'm EDAssist, also known as Ellie. How can I assist you today?", "bot");
+    };
     
   </script>
   
