@@ -109,49 +109,41 @@
     /* Adds a chat bubble to the chatbox */
     function addBubble(text, sender) {
       const chatbox = document.getElementById("chatbox");
-
+  
       const bubble = document.createElement("div");
       bubble.classList.add("bubble");
       bubble.classList.add(sender); // "user" or "bot"
       bubble.textContent = text;
-
+  
       chatbox.appendChild(bubble);
-
+  
       // Auto-scroll to bottom
       chatbox.scrollTop = chatbox.scrollHeight;
     }
-
+  
     /* Runs when the user clicks "Send" */
     async function sendMessage() {
       const input = document.getElementById("msg");
       const text = input.value.trim();
-
-      // Ignore empty messages
+  
       if (!text) return;
-
-      // Show user's bubble
+  
       addBubble(text, "user");
-
-      // Clear input field
       input.value = "";
-
-      // TEMPORARY bot reply until backend is added
+  
+      // Temporary bot reply
       addBubble("(waiting for backend...)", "bot");
-
-      /*
-      WHEN BACKEND ADDED:
-
-      const res = await fetch("YOUR_BACKEND_URL/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text })
-      });
-
-      const data = await res.json();
-      addBubble(data.response, "bot");
-      */
     }
+  
+    // Allow pressing Enter to send the message
+    document.getElementById("msg").addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        sendMessage();
+      }
+    });
+    
   </script>
-
+  
 </body>
 </html>
