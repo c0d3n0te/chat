@@ -93,17 +93,17 @@
 
   <script>
     /* -----------------------------
-       LOAD ELLIE'S KNOWLEDGE FILE
+       LOAD EDIE'S KNOWLEDGE FILE
     ------------------------------*/
-    let ellieKnowledge = {};
+    let edieKnowledge = {};
 
-    async function loadEllieKnowledge() {
+    async function loadEdieKnowledge() {
       try {
         const res = await fetch("edie-knowledge.json"); // <-- correct filename
-        ellieKnowledge = await res.json();
+        edieKnowledge = await res.json();
       } catch (e) {
-        console.error("Could not load Ellie knowledge:", e);
-        ellieKnowledge = {};
+        console.error("Could not load Edie knowledge:", e);
+        edieKnowledge = {};
       }
     }
 
@@ -123,43 +123,43 @@
     }
 
     /* -----------------------------
-       ELLIE'S BRAIN (RULE-BASED)
+       EDIE'S BRAIN (RULE-BASED)
     ------------------------------*/
-    function ellieReply(userText) {
+    function edieReply(userText) {
       const msg = userText.toLowerCase();
 
       // Safety / disclaimer
       if (msg.includes("diagnose") || msg.includes("should i") || msg.includes("treatment")) {
-        return "Ellie: " + (ellieKnowledge.disclaimer || "I can explain EDS, but I can't diagnose or give medical advice.");
+        return "Edie: " + (ellieKnowledge.disclaimer || "I can explain EDS, but I can't diagnose or give medical advice.");
       }
 
       // Greetings
       if (msg.includes("hi") || msg.includes("hello") || msg.includes("hey")) {
-        return "Ellie: Hi! What would you like to know about EDS?";
+        return "Edie: Hi! What would you like to know about EDS?";
       }
 
       // What is EDS?
       if (msg.includes("what is eds") || msg.includes("what's eds") || (msg.includes("eds") && msg.includes("what"))) {
-        return "Ellie: " + (ellieKnowledge.eds_overview || "EDS is a group of connective tissue disorders.");
+        return "Edie: " + (edieKnowledge.eds_overview || "EDS is a group of connective tissue disorders.");
       }
 
       // Symptoms
       if (msg.includes("symptom") || msg.includes("signs")) {
-        return "Ellie: Common symptoms include: " + (ellieKnowledge.symptoms?.join(", ") || "joint hypermobility and chronic pain") + ".";
+        return "Edie: Common symptoms include: " + (edieKnowledge.symptoms?.join(", ") || "joint hypermobility and chronic pain") + ".";
       }
 
       // Management
       if (msg.includes("manage") || msg.includes("cope") || msg.includes("help with")) {
-        return "Ellie: " + (ellieKnowledge.management || "Management usually focuses on physical therapy and joint protection.") + " " + (ellieKnowledge.disclaimer || "");
+        return "Edie: " + (edieKnowledge.management || "Management usually focuses on physical therapy and joint protection.") + " " + (edieKnowledge.disclaimer || "");
       }
 
       // Sources
       if (msg.includes("source") || msg.includes("website")) {
-        return "Ellie: I use trusted resources like: " + (ellieKnowledge.trusted_sources?.join(", ") || "official EDS websites") + ".";
+        return "Edie: I use trusted resources like: " + (edieKnowledge.trusted_sources?.join(", ") || "official EDS websites") + ".";
       }
 
       // Fallback
-      return "Ellie: I'm not sure about that yet, but I can explain EDS basics, symptoms, or general management if you'd like.";
+      return "Edie: I'm not sure about that yet, but I can explain EDS basics, symptoms, or general management if you'd like.";
     }
 
     /* -----------------------------
@@ -174,7 +174,7 @@
       addBubble(text, "user");
       input.value = "";
 
-      const reply = ellieReply(text);
+      const reply = edieReply(text);
       addBubble(reply, "bot");
     }
 
@@ -192,7 +192,7 @@
        ON PAGE LOAD
     ------------------------------*/
     window.onload = async function() {
-      await loadEllieKnowledge();
+      await loadEdieKnowledge();
       addBubble("Hi! I'm Edie. How may I assist you today?", "bot");
     };
   </script>
