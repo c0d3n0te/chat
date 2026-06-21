@@ -132,8 +132,17 @@
       addBubble(text, "user");
       input.value = "";
   
-      // Temporary bot reply
-      addBubble("(waiting for backend...)", "bot");
+      /* Temporary bot reply
+      addBubble("(waiting for backend...)", "bot");*/
+      const res = await fetch("YOUR_BACKEND_URL/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text })
+      });
+      
+      const data = await res.json();
+      addBubble("Ellie: " + data.response, "bot");
+
     }
   
     // Allow pressing Enter to send the message
