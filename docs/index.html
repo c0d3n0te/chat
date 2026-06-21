@@ -2,11 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
-  <!-- title that appears in the browser tab -->
   <title>AskEdie</title>
 
-  <!-- basic styling for layout and appearance -->
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -16,7 +13,6 @@
       justify-content: center;
     }
 
-    /* Chat container */
     #chat-container {
       width: 100%;
       max-width: 500px;
@@ -26,7 +22,6 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
-    /* Chat history area */
     #chatbox {
       height: 400px;
       overflow-y: auto;
@@ -36,7 +31,6 @@
       gap: 10px;
     }
 
-    /* Shared bubble styling */
     .bubble {
       padding: 10px 15px;
       border-radius: 15px;
@@ -44,7 +38,6 @@
       line-height: 1.4;
     }
 
-    /* User bubble (right side) */
     .user {
       align-self: flex-end;
       background: #007bff;
@@ -52,7 +45,6 @@
       border-bottom-right-radius: 0;
     }
 
-    /* Bot bubble (left side) */
     .bot {
       align-self: flex-start;
       background: #eaeaea;
@@ -60,14 +52,12 @@
       border-bottom-left-radius: 0;
     }
 
-    /* Input + Button Container */
     #inputArea {
       margin-top: 10px;
       display: flex;
       gap: 10px;
     }
 
-    /* Text Input Field */
     input {
       flex: 1;
       padding: 10px;
@@ -76,7 +66,6 @@
       border: 1px solid #ccc;
     }
 
-    /* Send Button */
     button {
       padding: 10px 20px;
       font-size: 16px;
@@ -90,16 +79,12 @@
 </head>
 
 <body>
-
-  <!-- Page Title -->
   <div id="chat-container">
     <h1>AskEdie</h1>
     <h3>Here to help you understand EDS</h3>
 
-    <!-- Chat History Display -->
     <div id="chatbox"></div>
 
-    <!-- User Input Area -->
     <div id="inputArea">
       <input id="msg" placeholder="Type a message">
       <button onclick="sendMessage()">Send</button>
@@ -107,45 +92,95 @@
   </div>
 
   <script>
-    /* Adds a chat bubble to the chatbox */
+    // --- Ellie’s knowledge (loaded from JSON) ---
+    let ellieKnowledge = {};
+
+    async function loadEllieKnowledge() {
+      try {
+        const res = await fetch("ellie-knowledge.json");
+        ellieKnowledge = await res.json();
+      } catch (e) {
+        console.error("Could not load Ellie knowledge:", e);
+        ellieKnowledge = {};
+      }
+    }
+
+    // --- Chat bubble helper ---
     function addBubble(text, sender) {
       const chatbox = document.getElementById("chatbox");
-  
+
       const bubble = document.createElement("div");
       bubble.classList.add("bubble");
       bubble.classList.add(sender); // "user" or "bot"
       bubble.textContent = text;
-  
+
       chatbox.appendChild(bubble);
-  
-      // Auto-scroll to bottom
       chatbox.scrollTop = chatbox.scrollHeight;
     }
-  
-    /* Runs when the user clicks "Send" */
+
+    // --- Ellie’s “brain” using the knowledge file ---
+    function ellieReply(userText) {
+      const msg = userText.toLowerCase();
+
+      // Safety / disclaimer
+      if (msg.includes("diagnose") || msg.includes("diagnosis") || msg.includes("should i") || msg.includes("treatment")) {
+        if (ellieKnowledge.disclaimer) {
+          return "Ellie: " + ellieKnowledge.disclaimer + " If you're worried about symptoms, please talk to a medical professional.";
+        }
+      }
+
+      // Greetings
+      if (msg.includes("hi") || msg.includes("hello") || msg.includes("hey")) {
+        return "Ellie: Hi! What would you like to know about EDS?";
+      }
+
+      // What is EDS
+      if (msg.includes("what is eds") || msg.includes("what's eds") || (msg.includes("eds") && msg.includes("what"))) {
+        if (ellieKnowledge.eds_overview) {
+          return "Ellie: " + ellieKnowledge.eds_overview;
+        }
+      }
+
+      // Symptoms
+      if (msg.includes("symptom") || msg.includes("signs") || msg.includes("look for")) {
+        if (ellieKnowledge.symptoms) {
+          return "Ellie: Common symptoms people talk about include: " + ellieKnowledge.symptoms.join(", ") + ".";
+        }
+      }
+
+      // Management / treatment (general)
+      if (msg.includes("manage") || msg.includes("management") || msg.includes("help with") || msg.includes("cope")) {
+        if (ellieKnowledge.management) {
+          return "Ellie: " + ellieKnowledge.management + " " + (ellieKnowledge.disclaimer || "");
+        }
+      }
+
+      // Ask about sources
+      if (msg.includes("source") || msg.includes("website") || msg.includes("where did you get this")) {
+        if (ellieKnowledge.trusted_sources) {
+          return "Ellie: I base my explanations on trusted resources like: " + ellieKnowledge.trusted_sources.join(", ") + ".";
+        }
+      }
+
+      // Fallback
+      return "Ellie: I might not know that specific thing yet, but I can explain EDS basics, symptoms, or general management if you ask.";
+    }
+
+    // --- Send message handler ---
     async function sendMessage() {
       const input = document.getElementById("msg");
       const text = input.value.trim();
-  
+
       if (!text) return;
-  
+
       addBubble(text, "user");
       input.value = "";
-  
-      /* Temporary bot reply
-      addBubble("(waiting for backend...)", "bot");*/
-      const res = await fetch("YOUR_BACKEND_URL/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text })
-      });
-      
-      const data = await res.json();
-      addBubble("Ellie: " + data.response, "bot");
 
+      const reply = ellieReply(text);
+      addBubble(reply, "bot");
     }
-  
-    // Allow pressing Enter to send the message
+
+    // --- Enter key sends message ---
     document.getElementById("msg").addEventListener("keydown", function(event) {
       if (event.key === "Enter") {
         event.preventDefault();
@@ -153,12 +188,11 @@
       }
     });
 
-    // Bot sends a message first when the page loads
-    window.onload = function() {
-      addBubble("Hello! I'm Edie. How can I assist you today?", "bot");
+    // --- On page load: load knowledge + first message ---
+    window.onload = async function() {
+      await loadEllieKnowledge();
+      addBubble("Hi! I'm EDAssist — but you can call me Ellie. I can help you understand EDS in a gentle, clear way.", "bot");
     };
-    
   </script>
-  
 </body>
 </html>
