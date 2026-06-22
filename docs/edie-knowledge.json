@@ -1,17 +1,34 @@
 {
-  "eds_overview": "Ehlers-Danlos syndrome (EDS) is a group of connective tissue disorders affecting collagen. It often involves joint hypermobility, skin elasticity, and tissue fragility.",
+  "eds_overview": "Ehlers-Danlos syndromes (EDS) are a group of hereditary connective tissue disorders caused by differences in collagen structure or processing. These differences lead to joint hypermobility, fragile or stretchy skin, and tissue vulnerability. The hypermobile type (hEDS) is the most common and is diagnosed clinically using criteria that evaluate joint hypermobility, systemic features, and exclusion of other conditions.",
+  
   "symptoms": [
-    "Joint hypermobility",
-    "Chronic pain",
-    "Frequent joint dislocations",
-    "Soft or stretchy skin",
-    "Fatigue"
+    "Generalized joint hypermobility",
+    "Joint instability, including frequent sprains, subluxations, or dislocations",
+    "Chronic musculoskeletal pain",
+    "Soft, velvety, or mildly stretchy skin",
+    "Easy bruising",
+    "Fatigue and reduced stamina",
+    "Delayed wound healing or widened scars",
+    "Autonomic symptoms such as dizziness or temperature intolerance (common in hEDS/HSD)",
+    "Gastrointestinal discomfort or motility issues",
+    "Pelvic floor dysfunction"
   ],
-  "management": "EDS management focuses on physical therapy, pain management, joint protection, and monitoring for complications.",
-  "trusted_sources": [
-    "https://www.ehlers-danlos.com/wp-content/uploads/2017/05/hEDS-Dx-Criteria-checklist-1.pdf",
-    "https://www.ehlers-danlos.com/what-is-eds/",
-    "https://www.mayoclinic.org/diseases-conditions/ehlers-danlos-syndrome/symptoms-causes/syc-20362125",
-    "https://pmc.ncbi.nlm.nih.gov/articles/PMC4952841/"
-  ]
-}
+
+  "subtypes": {
+    "hypermobile_eds": "The most common subtype. Diagnosis is based on clinical criteria including generalized joint hypermobility, systemic features, and exclusion of other causes. No confirmed genetic marker currently exists.",
+    "classical_eds": "Characterized by significant skin hyperextensibility, widened atrophic scars, and joint hypermobility. Often associated with COL5A1 or COL5A2 gene variants.",
+    "vascular_eds": "A rare but serious subtype involving fragile blood vessels and organs. Features may include thin, translucent skin and characteristic facial appearance. Often linked to COL3A1 gene variants.",
+    "other_subtypes": "Additional subtypes include kyphoscoliotic, arthrochalasia, dermatosparaxis, and others, each with distinct genetic causes and clinical features."
+  },
+
+  "management": "Management focuses on symptom control, joint protection, and improving quality of life. Common strategies include physical therapy aimed at strengthening and stabilizing joints, pacing activities to reduce fatigue, using braces or supports when needed, and addressing pain through multimodal approaches. Monitoring for complications such as autonomic symptoms, gastrointestinal issues, or pelvic floor dysfunction is recommended. Because EDS varies widely, care is often coordinated across multiple specialties.",
+
+  "diagnostic_notes": {
+    "heds_criteria": "The 2017 hEDS diagnostic criteria include: (1) generalized joint hypermobility measured with the Beighton score; (2) systemic features such as soft or stretchy skin, hernias, pelvic floor issues, or musculoskeletal complications; and (3) exclusion of other connective tissue disorders or alternative diagnoses.",
+    "beighton_score": "A 9-point scale assessing hypermobility in the elbows, knees, thumbs, little fingers, and ability to place palms on the floor with straight knees. Age-specific cutoffs apply."
+  },
+
+  "common_questions": {
+    "is_eds_genetic": "Most EDS subtypes have known genetic causes, but hypermobile EDS currently does not have a confirmed genetic marker. Diagnosis is clinical.",
+    "is_eds_progressive": "Symptoms may change over time, especially with chronic pain or joint instability, but progression varies widely.",
+    "can_exercise
